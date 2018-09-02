@@ -30,13 +30,6 @@ namespace SQL
             m_password = password;
         }
 
-        /// <summary>
-        /// Konstruktor klasy.
-        /// </summary>
-        /// <param name="login">Login użytkownika</param>
-        /// <param name="password">Hasło użytkownika</param>
-        /// <param name="database">Jedna z możliwych baz danych</param>
-        /// <param name="strona">Strona po której używany jest adapter</param>
         public cDbInfo(string ip, int port, string database, string login, string password)
         {
             m_login = login;
@@ -50,9 +43,6 @@ namespace SQL
 
         #region Właściwości
 
-        /// <summary>
-        /// Ustawia, lub zwraca login użytkownika.
-        /// </summary>
         public string Login
         {
             [System.Diagnostics.DebuggerStepThrough()]
@@ -62,9 +52,6 @@ namespace SQL
             }
         }
 
-        /// <summary>
-        /// Ustawia, lub zwraca jawne hasło użytkownika.
-        /// </summary>
         public string Password
         {
             [System.Diagnostics.DebuggerStepThrough()]
@@ -74,9 +61,6 @@ namespace SQL
             }
         }
 
-        /// <summary>
-        /// Ustawia, lub zwraca rodzaj bazy danych.
-        /// </summary>
         public string Database
         {
             [System.Diagnostics.DebuggerStepThrough()]
