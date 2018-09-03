@@ -4,8 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memos", "Notatki\Memos.csproj", "{7EB70E7B-0146-43A1-9BC3-A0959F37D193}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CFD9F733-B152-4149-BFE1-F01A96F7C300} = {CFD9F733-B152-4149-BFE1-F01A96F7C300}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL", "SQL\SQL.csproj", "{6C013E6D-B4C9-4E80-9195-CDB00468305C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfService", "WcfService\WcfService.csproj", "{CFD9F733-B152-4149-BFE1-F01A96F7C300}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,10 @@ Global
 		{6C013E6D-B4C9-4E80-9195-CDB00468305C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C013E6D-B4C9-4E80-9195-CDB00468305C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C013E6D-B4C9-4E80-9195-CDB00468305C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD9F733-B152-4149-BFE1-F01A96F7C300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD9F733-B152-4149-BFE1-F01A96F7C300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD9F733-B152-4149-BFE1-F01A96F7C300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD9F733-B152-4149-BFE1-F01A96F7C300}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// Logowanie i rejestracja uÅ¼ytkownikÃ³w
+// Logowanie i rejestracja u¿ytkowników
 namespace Notatki {
 
     public partial class SignInForm : Form {
@@ -28,7 +28,7 @@ namespace Notatki {
             ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
             bool init = proxy.InitDatabase();
             if (!init) {
-                System.Windows.Forms.MessageBox.Show("WystÄ…piÅ‚ bÅ‚Ä…d, wyÅ‚Ä…czanie aplikacji");
+                System.Windows.Forms.MessageBox.Show("Wyst¹pi³ b³¹d, wy³¹czanie aplikacji");
                 Application.Exit();
             }
         }
