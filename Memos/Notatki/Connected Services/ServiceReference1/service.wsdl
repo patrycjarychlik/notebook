@@ -4,7 +4,9 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/SQL" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/WcfService" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/System.Data" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IService1_GetData_InputMessage">
@@ -43,6 +45,36 @@
   <wsdl:message name="IService1_GetDataUsingDataContract_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_getLogin_InputMessage">
+    <wsdl:part name="parameters" element="tns:getLogin" />
+  </wsdl:message>
+  <wsdl:message name="IService1_getLogin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_LoadData_InputMessage">
+    <wsdl:part name="parameters" element="tns:LoadData" />
+  </wsdl:message>
+  <wsdl:message name="IService1_LoadData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LoadDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateData_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateData" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_CommitAndUpdate_InputMessage">
+    <wsdl:part name="parameters" element="tns:CommitAndUpdate" />
+  </wsdl:message>
+  <wsdl:message name="IService1_CommitAndUpdate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CommitAndUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteNote_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteNote" />
+  </wsdl:message>
+  <wsdl:message name="IService1_DeleteNote_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteNoteResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService1">
     <wsdl:operation name="GetData">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetData" message="tns:IService1_GetData_InputMessage" />
@@ -67,6 +99,26 @@
     <wsdl:operation name="GetDataUsingDataContract">
       <wsdl:input wsaw:Action="http://tempuri.org/IService1/GetDataUsingDataContract" message="tns:IService1_GetDataUsingDataContract_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IService1/GetDataUsingDataContractResponse" message="tns:IService1_GetDataUsingDataContract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getLogin">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/getLogin" message="tns:IService1_getLogin_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/getLoginResponse" message="tns:IService1_getLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/LoadData" message="tns:IService1_LoadData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/LoadDataResponse" message="tns:IService1_LoadData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpdateData" message="tns:IService1_UpdateData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpdateDataResponse" message="tns:IService1_UpdateData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CommitAndUpdate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/CommitAndUpdate" message="tns:IService1_CommitAndUpdate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/CommitAndUpdateResponse" message="tns:IService1_CommitAndUpdate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNote">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/DeleteNote" message="tns:IService1_DeleteNote_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/DeleteNoteResponse" message="tns:IService1_DeleteNote_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
@@ -118,6 +170,51 @@
     </wsdl:operation>
     <wsdl:operation name="GetDataUsingDataContract">
       <soap:operation soapAction="http://tempuri.org/IService1/GetDataUsingDataContract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLogin">
+      <soap:operation soapAction="http://tempuri.org/IService1/getLogin" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LoadData">
+      <soap:operation soapAction="http://tempuri.org/IService1/LoadData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateData">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpdateData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CommitAndUpdate">
+      <soap:operation soapAction="http://tempuri.org/IService1/CommitAndUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteNote">
+      <soap:operation soapAction="http://tempuri.org/IService1/DeleteNote" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

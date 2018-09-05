@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 // Główne okno managera notatek
 namespace Notatki {
 
@@ -17,16 +18,20 @@ namespace Notatki {
 
         public MemosForm() {
             InitializeComponent();
-
             SignInForm login = new SignInForm();
+
             if (login.ShowDialog() != DialogResult.OK) {
                 Application.Exit();
                 return;
             }
-            base.Text = "Manager Notatek : " + Data.Config.User.Login;
+            listBox1.DataSource = null;
+
+           ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
+            base.Text = "Manager Notatek : " + proxy.getLogin();
+            proxy.Close();
         }
 
-        private List<Data.Table.Memo> db_memos_list;
+        private List<MemoView> db_memos_list;
         private DataTable db_memo_table;
 
         public string Title {
@@ -39,7 +44,7 @@ namespace Notatki {
             set { richTextBox1.Text = value; }
         }
 
-        private Data.Table.Memo SelectedMemo {
+        private MemoView SelectedMemo {
             get {
                 if (listBox1.SelectedIndex == -1)
                     return null;
@@ -47,29 +52,33 @@ namespace Notatki {
             }
         }
 
-        private void LoadDData() {
-            db_memo_table = Data.Config.sql.GetTable(
-                Data.Table.Memo.TableName,
-                new SQL.Parameter[]
-                {
-                    new SQL.Parameter(
-                        Data.Table.Memo.Column.USER_ID,
-                        Data.Config.User.Id)
-                });
-
+        private void LoadData() {
+            ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
+            db_memo_table = proxy.LoadData();
             UpdateData();
+            proxy.Close();
         }
 
         private void UpdateData() {
+            ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
+
             is_data_updating = true;
-            db_memos_list = SQL.Data.Elements<Data.Table.Memo>.CreateElements(db_memo_table).OrderBy(el => el.Title).ToList();
+            Notatki.ServiceReference1.MemoDto[] dto = proxy.UpdateData(db_memo_table);
+            db_memos_list = new List<MemoView>();
+
+            foreach (Notatki.ServiceReference1.MemoDto memoDto in dto) {
+                db_memos_list.Add(new MemoView(memoDto.Title, memoDto.Text, memoDto.Id, memoDto.UserId));
+            }
             try {
-                listBox1.DataSource = db_memos_list.Select(el => el.Title).ToArray();
+                listBox1.DataSource = null;
+                listBox1.DataSource = db_memos_list.Select(s => (string)s.Title).ToArray();
             } finally {
                 is_data_updating = false;
             }
             memo_list_SelectedIndexChanged(this, new EventArgs());
+            proxy.Close();
         }
+        
 
         private void new_memo(object sender, EventArgs e) {
             Text = EMPTY_STRING;
@@ -84,11 +93,14 @@ namespace Notatki {
         }
 
         private void load_list(object sender, EventArgs e) {
-            if (Data.Config.User == null) {
+            ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
+
+            if (proxy.getLogin() == null) {
                 DialogResult = DialogResult.Cancel;
                 return;
             }
-            LoadDData();
+            LoadData();
+            proxy.Close();
         }
 
         private void memo_list_SelectedIndexChanged(object sender, EventArgs e) {
@@ -105,36 +117,51 @@ namespace Notatki {
         }
 
         private void delete_active_memo(object sender, EventArgs e) {
+   
             if (SelectedMemo != null) {
-                SelectedMemo.ElementDataRow.Delete();
-                Data.Config.sql.Commit(db_memo_table);
+                ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
+
+                for (int i = db_memo_table.Rows.Count - 1; i >= 0; i--) {
+                    DataRow dr = db_memo_table.Rows[i];
+                    if (dr["Id"].ToString() == SelectedMemo.Id.ToString())
+                        dr.Delete();
+                }
+                proxy.CommitAndUpdate(db_memo_table);
                 UpdateData();
             }
         }
 
-        private void delete_active_note(object sender, EventArgs e) {
+        private void save_active_note(object sender, EventArgs e) {
+            ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
+
             if (SelectedMemo == null) {
-                var newRow = db_memo_table.NewRow();
-                var row = SQL.Data.Elements<Data.Table.Memo>.CreateElement(newRow);
-                row.Text = Text;
-                row.Title = Title;
-                row.UserId = Data.Config.User.Id;
-                row.Id = Data.Config.sql.GetNextId(Data.Table.Memo.TableName);
-                db_memo_table.Rows.Add(row.ElementDataRow);
+                proxy.DeleteNote(db_memo_table, Title, Text);
             } else {
                 SelectedMemo.Text = Text;
                 SelectedMemo.Title = Title;
+
+                for (int i = db_memo_table.Rows.Count - 1; i >= 0; i--) {
+                    DataRow dr = db_memo_table.Rows[i];
+                    if (dr["Id"].ToString() == SelectedMemo.Id.ToString()) {
+                        dr.SetField(3, Text);
+                        dr.SetField(2, Title);
+                    }
+                }
+                proxy.CommitAndUpdate(db_memo_table);
             }
-            Data.Config.sql.Commit(db_memo_table);
-            UpdateData();
+            proxy.Close();
+            LoadData();
         }
 
         private void list_showed(object sender, EventArgs e) {
-            if (Data.Config.User == null) {
+            ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
+
+            if (proxy.getLogin() == null) {
                 DialogResult = DialogResult.Cancel;
                 Application.Exit();
                 return;
             }
+            proxy.Close();
         }
 
     }

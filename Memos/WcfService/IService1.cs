@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -19,34 +20,47 @@ namespace WcfService {
         void InitDB();
 
         [OperationContract]
-        void SignIn(string Password, string Login);
+        SQL.Response SignIn(string Password, string Login);
 
         [OperationContract]
-        bool Register(string Login, string Password);
+        SQL.Response Register(string Login, string Password);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
 
-        // TODO: dodaj tutaj operacje usługi
+        [OperationContract]
+        string getLogin();
+
+        [OperationContract]
+        DataTable LoadData();
+
+        [OperationContract]
+        List<SQL.MemoDto> UpdateData(DataTable table);
+
+        [OperationContract]
+        void CommitAndUpdate(DataTable table);
+
+        [OperationContract]
+        void DeleteNote(DataTable table, string Title, string Text);
     }
 
-    // Użyj kontraktu danych, jak pokazano w poniższym przykładzie, aby dodać typy złożone do operacji usługi.
-    // Możesz dodać pliki XSD do projektu. Po skompilowaniu projektu możesz bezpośrednio użyć zdefiniowanych w nim typów danych w przestrzeni nazw „WcfService.ContractType”.
-    [DataContract]
-    public class CompositeType {
-        bool boolValue = true;
-        string stringValue = "Hello ";
+        // Użyj kontraktu danych, jak pokazano w poniższym przykładzie, aby dodać typy złożone do operacji usługi.
+        // Możesz dodać pliki XSD do projektu. Po skompilowaniu projektu możesz bezpośrednio użyć zdefiniowanych w nim typów danych w przestrzeni nazw „WcfService.ContractType”.
+        [DataContract]
+        public class CompositeType {
+            bool boolValue = true;
+            string stringValue = "Hello ";
 
-        [DataMember]
-        public bool BoolValue {
-            get { return boolValue; }
-            set { boolValue = value; }
-        }
+            [DataMember]
+            public bool BoolValue {
+                get { return boolValue; }
+                set { boolValue = value; }
+            }
 
-        [DataMember]
-        public string StringValue {
-            get { return stringValue; }
-            set { stringValue = value; }
+            [DataMember]
+            public string StringValue {
+                get { return stringValue; }
+                set { stringValue = value; }
         }
     }
 }

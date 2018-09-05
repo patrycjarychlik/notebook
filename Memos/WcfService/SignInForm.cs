@@ -38,6 +38,7 @@ namespace WcfService {
         }
 
         private void ConnectToDB() {
+            System.IO.Directory.SetCurrentDirectory(System.AppDomain.CurrentDomain.BaseDirectory);
             if (!System.IO.File.Exists(Data.Config.DbFilePath))
                 throw new Exception();
             Data.Config.sql = new SQL.SqLite.SQL(new SQL.cDbInfo(Data.Config.DbFilePath, Data.Config.DbPassword));
@@ -63,16 +64,13 @@ namespace WcfService {
         }
 
         public bool Register(string Login, string Password) {
-            try {
                 DataTable dt = Data.Config.sql.GetTable(Data.Table.User.TableName);
                 if (String.IsNullOrEmpty(Login)) {
                     throw new Exception("Błędny login, proszę podaj poprawnę wartość.");
-                    return false;
                 }
 
                 if (SQL.Data.Elements<Data.Table.User>.CreateElements(dt).Any(el => el.Login == Login)) {
                     throw new Exception("Login zajęty, proszę wybierz inny login.");
-                    return false;
                 }
 
                 Data.Table.User user = SQL.Data.Elements<Data.Table.User>.CreateElement(dt.NewRow());
@@ -83,13 +81,6 @@ namespace WcfService {
 
                 Data.Config.sql.Commit(dt);
                 return true;
-            } catch (Exception e) {
-                //System.Windows.Forms.MessageBox.Show("Wystąpił błąd, wyłączanie aplikacji");
-                /*Console.WriteLine(*/
-                throw new Exception("Wystąpił błąd, wyłączanie aplikacji");
-                //Application.Exit();
-            }
-            return false;
         }
 
 

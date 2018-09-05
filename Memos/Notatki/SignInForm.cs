@@ -31,34 +31,32 @@ namespace Notatki {
                 System.Windows.Forms.MessageBox.Show("Wystąpił błąd, wyłączanie aplikacji");
                 Application.Exit();
             }
-        }
-
-        private void ConnectToDB() {
-            if (!System.IO.File.Exists(Data.Config.DbFilePath))
-                throw new Exception();
-            Data.Config.sql = new SQL.SqLite.SQL(new SQL.cDbInfo(Data.Config.DbFilePath, Data.Config.DbPassword));
-            if (Data.Config.sql.ConnectionTest() != SQL.eConnectionStatus.OK) {
-                throw new Exception();
-            }
-        }
-
-        private void InitDB() {
-            ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
-            proxy.InitDB();
+            proxy.Close();
         }
 
         public void SignIn() {
-            ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
-            proxy.SignIn(Password, Login);
+
+           ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
+           Notatki.ServiceReference1.Response res = proxy.SignIn(Login, Password);
+            if (!res.Status) {
+                System.Windows.Forms.MessageBox.Show("Wystąpił błąd logowania:" + res.Message);
+            } else {
+                DialogResult = System.Windows.Forms.DialogResult.OK;
+            }
+
         }
 
         private bool Register() {
             ServiceReference1.Service1Client proxy = new ServiceReference1.Service1Client();
-            return proxy.Register(Login, Password);
+            Notatki.ServiceReference1.Response res = proxy.Register(Login, Password);
+            if (!res.Status)
+                System.Windows.Forms.MessageBox.Show("Wystąpił błąd logowania:" + res.Message);
+            proxy.Close();
+            return res.Status;
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            SignIn();
+           SignIn();
         }
 
         private void register_button(object sender, EventArgs e) {

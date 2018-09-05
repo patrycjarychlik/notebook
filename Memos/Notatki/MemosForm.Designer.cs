@@ -79,7 +79,7 @@
             this.button3.TabIndex = 4;
             this.button3.Text = "Zapisz";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.delete_active_note);
+            this.button3.Click += new System.EventHandler(this.save_active_note);
             // 
             // textBox1
             // 
@@ -123,7 +123,7 @@
             this.Controls.Add(this.listBox1);
             this.Name = "MemosForm";
             this.ShowIcon = false;
-            this.Text = "Manager notatek";
+            this.Text = "notatka";
             this.Load += new System.EventHandler(this.load_list);
             this.Shown += new System.EventHandler(this.list_showed);
             this.ResumeLayout(false);

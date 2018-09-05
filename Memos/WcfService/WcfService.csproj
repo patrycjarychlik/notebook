@@ -66,6 +66,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MemoDTO.cs" />
+    <Compile Include="MemoForm.cs" />
     <Compile Include="SignInForm.cs" />
     <Compile Include="Data\Config.cs" />
     <Compile Include="Data\Table\Memo.cs" />
